@@ -10,7 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Properties;
 
 /**
- * Created by Eric.Liu on 2016/9/6.
+ * 不适用大规模sftp传输
+ * Created by xinyi.liu on 2016/9/6.
  */
 @Slf4j
 public class SftpUtil {

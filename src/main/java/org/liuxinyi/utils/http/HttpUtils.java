@@ -37,9 +37,9 @@ public class HttpUtils {
      */
     private static final int SOCKET_TIMEOUT = 15000;
     /**
-     * CONNECTION_TIMEOUT 建立连接超时时间 默认15秒
+     * CONNECTION_TIMEOUT 建立连接超时时间 默认3秒
      */
-    private static final int CONNECTION_TIMEOUT = 15000;
+    private static final int CONNECTION_TIMEOUT = 3000;
     /**
      * 从httpClient的连接池获取连接的超时时间 ,httpClient默认会一直等待,直到获取连接,这样可能会导致dubbo超时
      * httpUtil设置默认时间为1秒
