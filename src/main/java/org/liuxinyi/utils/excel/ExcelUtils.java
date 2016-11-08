@@ -34,27 +34,6 @@ public class ExcelUtils {
 
 
     /**
-     * 通过xlsx文件模板得到 workbook
-     *
-     * @param modelPath
-     * @param rowInMemory
-     * @return
-     */
-    public static Workbook createWorkBookByModel(String modelPath, int rowInMemory) {
-        Workbook workbook = null;
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(modelPath);
-            workbook = new SXSSFWorkbook(new XSSFWorkbook(inputStream), rowInMemory);
-            return workbook;
-        } catch (Exception e) {
-            throw new RuntimeException("failed to createWorkBookByModel " + e.getMessage(), e);
-        } finally {
-            IOUtils.closeQuietly(inputStream);
-        }
-    }
-
-    /**
      * 通过头部数据得到work
      *
      * @param headers
@@ -309,6 +288,20 @@ public class ExcelUtils {
                 return cell.getCellFormula();
         }
         return "";
+    }
+
+    /**
+     * 特殊情况下取单元格的String Value
+     * 比如使用公式获取的单元格的值,复制到新的excel中,无法获取到公式的值
+     *
+     * @param cell
+     * @return
+     */
+    public static String getCellStringValue(Cell cell) {
+        if (cell == null) {
+            return "NULL";
+        }
+        return cell.getStringCellValue();
     }
 
     /**
