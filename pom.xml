@@ -58,8 +58,6 @@
             <version>4.12</version>
         </dependency>
 
-        <!-- sftp 依赖 -->
-
         <!-- redis 依赖 -->
 
 
@@ -69,7 +67,6 @@
             <artifactId>lombok</artifactId>
             <version>1.16.10</version>
         </dependency>
-
 
         <!-- slf4j 依赖 -->
         <dependency>
@@ -89,12 +86,20 @@
             <version>1.1.7</version>
         </dependency>
 
-
+        <!-- spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>4.2.2.RELEASE</version>
         </dependency>
+
+        <!-- jsch -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+        </dependency>
+
 
     </dependencies>
 
