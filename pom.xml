@@ -26,6 +26,12 @@
             <artifactId>commons-collections</artifactId>
             <version>3.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.12</version>
+        </dependency>
+
 
 
         <!-- excel poi 依赖 -->
@@ -59,7 +65,11 @@
         </dependency>
 
         <!-- redis 依赖 -->
-
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
 
         <!-- lombok 依赖 -->
         <dependency>
