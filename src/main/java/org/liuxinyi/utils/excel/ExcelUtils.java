@@ -112,7 +112,7 @@ public class ExcelUtils {
                 workbook = new XSSFWorkbook();
             }
             Sheet sheet = workbook.createSheet();
-            createSheet(sheet, headers, dataRows);
+            fillSheet(sheet, headers, dataRows);
             outputStream = new FileOutputStream(destPath);
             workbook.write(outputStream);
         } catch (Exception e) {
@@ -150,7 +150,7 @@ public class ExcelUtils {
                 workbook = new XSSFWorkbook(inputStream);
             }
             Sheet sheet = workbook.getSheetAt(0);
-            createSheet(sheet, dataRows);
+            fillSheet(sheet, dataRows);
             outputStream = new FileOutputStream(destPath);
             workbook.write(outputStream);
         } catch (Exception e) {
@@ -165,13 +165,12 @@ public class ExcelUtils {
         }
     }
 
-
-    private static void createSheet(Sheet sheet, List<String> headers, List<List<String>> dataRows) {
+    private static void fillSheet(Sheet sheet, List<String> headers, List<List<String>> dataRows) {
         createRow(sheet, 0, headers);
-        createSheet(sheet, dataRows);
+        fillSheet(sheet, dataRows);
     }
 
-    private static void createSheet(Sheet sheet, List<List<String>> dataRows) {
+    private static void fillSheet(Sheet sheet, List<List<String>> dataRows) {
         for (int i = 1; i <= dataRows.size(); i++) {
             createRow(sheet, i, dataRows.get(i - 1));
         }
@@ -202,13 +201,26 @@ public class ExcelUtils {
     }
 
     /**
-     * 判断是不是第一列
+     * 判断开始列是不是第N列
      *
      * @param cellRangeAddress
      * @return
      */
-    public static boolean isFirstColumn(CellRangeAddress cellRangeAddress) {
-        if (cellRangeAddress.getFirstColumn() == 0) {
+    public static boolean isRegionColumnBeginAt(CellRangeAddress cellRangeAddress, int columnNum) {
+        if (cellRangeAddress.getFirstColumn() == columnNum) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断开始行是不是第N行
+     *
+     * @param cellRangeAddress
+     * @return
+     */
+    public static boolean isRegionRowBeginAt(CellRangeAddress cellRangeAddress, int rowNum) {
+        if (cellRangeAddress.getFirstRow() == rowNum) {
             return true;
         }
         return false;
