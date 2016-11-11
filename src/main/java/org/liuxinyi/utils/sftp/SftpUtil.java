@@ -118,7 +118,7 @@ public class SftpUtil {
         try {
             vector = channelSftp.ls("*" + extension);
             if (CollectionUtils.isEmpty(vector)) {
-                log.error("没有符合条件的文件 : {} ", extension);
+                log.info("没有符合条件的文件 : {} ", extension);
                 return fileNames;
             }
             for (int i = 0; i < vector.size(); i++) {
