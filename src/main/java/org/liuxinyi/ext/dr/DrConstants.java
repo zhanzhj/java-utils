@@ -5,16 +5,6 @@ package org.liuxinyi.ext.dr;
  */
 public class DrConstants {
 
-    // dr 1.0 begin
-    public static final String API_URL_LOAN_APPLICATION = "v1/loans";
-    public static final String API_URL_LOAN_SEARCH = "v1/loans";
-    public static final String API_URL_LOAN_AUDIT = "v1/loans/status";
-    public static final String API_URL_PAYMENT_PLAN = "v1/loans/paymentplan";
-
-    public static final String REQ_PARAM_CK = "CK";
-    public static final String REQ_PARAM_CHANNEL = "channel";
-    // dr 1.0 end
-
     // 贷款申请
     // 贷款申请生成接口
     public static final String API_URL_LOAN_APP = "/v1/mime/apps";

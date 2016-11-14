@@ -16,14 +16,15 @@ import java.io.Serializable;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = {"name", "email"})
-@XmlRootElement(name = "root")
+@XmlType(propOrder = {"userName", "userEmail"})
+@XmlRootElement(name = "user")
 public class SingleBean implements Serializable {
 
     @XmlJavaTypeAdapter(value = AdaptorCDATA.class)
-    private String name;
+    @XmlElement(name = "user_name")
+    private String userName;
 
-    @XmlElement
-    private String email;
+    @XmlElement(name = "user_email")
+    private String userEmail;
 
 }

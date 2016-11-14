@@ -13,8 +13,8 @@ public class JaxbDemo {
     @Test
     public void test1() {
         SingleBean singleBean = new SingleBean();
-        singleBean.setName("name1");
-        singleBean.setEmail("123@163.com");
+        singleBean.setUserName("name1");
+        singleBean.setUserEmail("123@163.com");
         try {
             String xml = JaxbUtils.convertToXml(singleBean);
             log.info("xml : {} ", xml);
@@ -26,7 +26,7 @@ public class JaxbDemo {
     @Test
     public void test2() {
         try {
-            String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><root><name><![CDATA[name1]]></name><email>123@163.com</email></root>";
+            String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><user><user_name><![CDATA[name1]]></user_name><user_email>123@163.com</user_email></user>";
             SingleBean singleBean = JaxbUtils.convertToJavaBean(xml, SingleBean.class);
             log.info("singleBean : {} ", singleBean);
         } catch (Exception e) {
