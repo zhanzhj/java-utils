@@ -27,4 +27,5 @@ public class SingleBean implements Serializable {
     @XmlElement(name = "user_email")
     private String userEmail;
 
+
 }
