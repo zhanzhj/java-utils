@@ -14,7 +14,7 @@ public class WxTest {
     @Test
     public void test1() {
         WxRefundApply apply = new WxRefundApply();
-        apply.setAppId("app_id");
+        apply.setAppId("appid");
         apply.setMchId("mch_id");
         apply.setNonceStr("nonce_str");
         apply.setOutTradeNo("out_trade_no");

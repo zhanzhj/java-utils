@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"appId", "mchId","nonceStr","outTradeNo","outRefundNo","totalFee","refundFee","opUserId","sign"})
 public class WxRefundApply {
-    @XmlElement(name = "app_id")
+    @XmlElement(name = "appid")
     private String appId;
     @XmlElement(name = "mch_id")
     private String mchId;
