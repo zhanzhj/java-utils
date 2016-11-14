@@ -13,18 +13,21 @@ public class WxTest {
 
     @Test
     public void test1() {
-        WxRefundApply apply = new WxRefundApply();
+        WxRefundApplyReq apply = new WxRefundApplyReq();
         apply.setAppId("appid");
         apply.setMchId("mch_id");
         apply.setNonceStr("nonce_str");
         apply.setOutTradeNo("out_trade_no");
         apply.setOutRefundNo("out_refund_no");
-        apply.setTotalFee("total_fee");
-        apply.setRefundFee("refund_fee");
+        apply.setTotalFee(1);
+        apply.setRefundFee(1);
         apply.setOpUserId("op_user_id");
-        String sign = WxSignUtil.getSigned(apply);
+        long start = System.currentTimeMillis();
+        String sign = WxSignUtil.getSignString(apply);
         log.info("sign : {} ", sign);
         apply.setSign(sign);
+        long end = System.currentTimeMillis();
+        log.info("cost : {} ", end - start);
         try {
             String xml = JaxbUtils.convertToXml(apply);
             log.info("xml : {}", xml);

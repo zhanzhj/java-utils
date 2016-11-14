@@ -16,7 +16,7 @@ import java.util.TreeMap;
  */
 @Slf4j
 public class WxSignUtil {
-    public static String getSigned(Object t) {
+    public static String getSignString(Object t) {
         try {
             String xmlString = JaxbUtils.convertToXml(t);
             Document document = DocumentHelper.parseText(xmlString);
@@ -48,6 +48,15 @@ public class WxSignUtil {
         sb.append("=");
         sb.append("key");
         String xmlString = sb.toString();
+        log.info("xmlString : {} ", xmlString);
         return DigestUtils.md5Hex(xmlString).toUpperCase();
+    }
+
+    public static boolean verifySign(Object obj, String sign) {
+        String sign2 = getSignString(obj);
+        if (sign.equals(sign2)) {
+            return true;
+        }
+        return false;
     }
 }

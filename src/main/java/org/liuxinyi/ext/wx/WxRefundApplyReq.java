@@ -14,24 +14,16 @@ import javax.xml.bind.annotation.*;
 @Setter
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = {"appId", "mchId","nonceStr","outTradeNo","outRefundNo","totalFee","refundFee","opUserId","sign"})
-public class WxRefundApply {
-    @XmlElement(name = "appid")
-    private String appId;
-    @XmlElement(name = "mch_id")
-    private String mchId;
-    @XmlElement(name = "nonce_str")
-    private String nonceStr;
-    @XmlElement(name = "sign")
-    private String sign;
+@XmlType(propOrder = {"outTradeNo", "outRefundNo", "totalFee", "refundFee", "opUserId"})
+public class WxRefundApplyReq extends WxCommonReq {
     @XmlElement(name = "out_trade_no")
     private String outTradeNo;
     @XmlElement(name = "out_refund_no")
     private String outRefundNo;
     @XmlElement(name = "total_fee")
-    private String totalFee;
+    private int totalFee;
     @XmlElement(name = "refund_fee")
-    private String refundFee;
+    private int refundFee;
     @XmlElement(name = "op_user_id")
     private String opUserId;
 
