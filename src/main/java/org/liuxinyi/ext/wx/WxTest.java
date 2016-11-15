@@ -26,6 +26,8 @@ public class WxTest {
         String sign = WxSignUtil.getSignString(apply);
         log.info("sign : {} ", sign);
         apply.setSign(sign);
+        boolean checkSign = WxSignUtil.verifySign(apply, sign);
+        log.info("checkSign : {} ", checkSign);
         long end = System.currentTimeMillis();
         log.info("cost : {} ", end - start);
         try {
