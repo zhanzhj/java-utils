@@ -1,14 +1,10 @@
 package org.liuxinyi.utils.xml.jaxb;
 
-import com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.Writer;
 
 /**
  * Created by liuxinyi on 2016/6/12.
@@ -37,14 +33,6 @@ public class JaxbUtils {
         JAXBContext context = JAXBContext.newInstance(obj.getClass());
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
-        marshaller.setProperty(CharacterEscapeHandler.class.getName(),
-                new CharacterEscapeHandler() {
-                    @Override
-                    public void escape(char[] ac, int i, int j, boolean flag,
-                                       Writer writer) throws IOException {
-                        writer.write(ac, i, j);
-                    }
-                });
         StringWriter writer = new StringWriter();
         marshaller.marshal(obj, writer);
         result = writer.toString();
