@@ -1,13 +1,17 @@
-package org.liuxinyi.demos.multiThread;
+package org.liuxinyi.demos.multiThread.join;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 /**
+ * sleep 不会释放锁
  * Created by Eric.Liu on 2016/11/9.
  */
 @Slf4j
 public class JoinDemo {
+
+    private static volatile boolean stop = false;
+
     @Test
     public void test() {
 
@@ -17,6 +21,7 @@ public class JoinDemo {
                 try {
                     log.info("thread begin ...");
                     Thread.sleep(5000);
+                    stop = true;
                     log.info("thread end ...");
                 } catch (Exception e) {
                     log.error("Exception occurred", e);
@@ -26,10 +31,10 @@ public class JoinDemo {
 
         log.info("main begin ...");
         thread.start();
-        log.info("main run ...");
+        log.info("stop : {} ", stop);
         try {
             thread.join();
-            log.info("main end ...");
+            log.info("main end stop : {} ", stop);
         } catch (Exception e) {
             log.error("Exception occurred", e);
         }
