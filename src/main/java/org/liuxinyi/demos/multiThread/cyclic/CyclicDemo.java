@@ -27,10 +27,11 @@ public class CyclicDemo implements Runnable {
     @Override
     public void run() {
         try {
-            sing();
-            cyclicBarrier.await(); // 等待所有人唱歌完成
-            dance();
-            cyclicBarrier.await(); // 等待所有人跳舞完成
+            // cyclicBarrier.await(); // 等待所有人到齐
+            playBadminton();
+            cyclicBarrier.await(); // 等待所有人打完羽毛球比赛准备开始篮球比赛
+            playBasketball();
+            cyclicBarrier.await(); // 活动结束等待所有人集合
             goHome();
             eat();
         } catch (Exception e) {
@@ -38,7 +39,7 @@ public class CyclicDemo implements Runnable {
         }
     }
 
-    private void sing() {
+    private void playBadminton() {
         try {
             log.info("thread : {} sing begin", Thread.currentThread().getName());
             Thread.sleep(seconds * 1000);
@@ -48,7 +49,7 @@ public class CyclicDemo implements Runnable {
         }
     }
 
-    private void dance() {
+    private void playBasketball() {
         try {
             log.info("thread : {} dance begin", Thread.currentThread().getName());
             Thread.sleep(seconds * 1000);
