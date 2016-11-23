@@ -1,0 +1,162 @@
+同步方法调用一旦开始,调用者必须等到方法调用返回后,才能继续后续的行为;
+异步方法调用更像传递一个消息,一旦开始,方法调用就立即返回,调用者可以进行后续的行为;
+并发和并行 都可以表示2个或多个任务一起执行;
+并发偏重于多个任务交替执行
+并行是真正意义的同时执行
+代码的串行化比重和并行化比重
+线程安全 
+共享可变才会发生线程安全问题
+主内存和工作内存
+
+start 新建一个线程执行
+run   当前线程中串行执行
+
+wait和notify是object的方法
+
+wait  会释放目标对象锁
+sleep 不会释放任何资源
+
+join 当前线程中使用其他线程的t.join方法,当前线程会等待子线程执行完
+
+volatile 易变的不稳定的,不能实现真正的线程安全,不能保证复合操作的原子性
+volatile 用于性能测试是非常不错的选择
+
+锁 死锁 活锁 饥饿锁 读写锁 状态说 乐观锁 悲观锁
+
+乐观锁
+乐观锁机制避免了长事务中的数据库加锁开销（操作员 A和操作员 B 操作过程中，都没有对数据库数据加锁），大大提升了大并发量下的系统整体性能表现。
+乐观锁机制往往基于系统中的数据存储逻辑，因此也具备一定的局限性，如在上例中，由于乐观锁机制是在我们的系统中实现，来自外部系统的用户余额更新操作不受我们系统的控制，因此可能会造成脏数据被更新到数据库中。
+在系统设计阶段，我们应该充分考虑到这些情况出现的可能性，并进行相应调整
+
+活锁可以认为是一种特殊的饥饿。
+如果事务T1封锁了数据R,事务T2又请求封锁R，于是T2等待。T3也请求封锁R，当T1释放了R上的封锁后，系统首先批准了T3的请求，T2仍然等待。
+然后T4又请求封锁R，当T3释放了R上的封锁之后，系统又批准了T4的请求......T2可能永远等待。
+
+公平锁    排队  不会产生饥饿现象     成本高,性能低
+非公平锁  随机  可能对产生线程饥饿   synchronized
+
+condition  多种不同的状态  ArrayBlockingQueue
+
+private final ReentrantLock lock = new ReentrantLock(false);
+private final Condition notEmpty = lock.newCondition();
+private final Condition notFull  =  lock.newCondition();
+
+    public void put(E e) throws InterruptedException {
+        checkNotNull(e);
+        final ReentrantLock lock = this.lock;
+        lock.lockInterruptibly();
+        try {
+            while (count == items.length)
+                notFull.await();
+            insert(e);
+        } finally {
+            lock.unlock();
+        }
+    }
+	
+	
+	public E take() throws InterruptedException {
+        final ReentrantLock lock = this.lock;
+        lock.lockInterruptibly();
+        try {
+            while (count == 0)
+                notEmpty.await();
+            return extract();
+        } finally {
+            lock.unlock();
+        }
+    }
+	
+	
+Semaphore 信号量  允许N个线程同时执行 大小固定的线程池
+
+CountDownLatch  门闩  倒计时器
+火箭发射,为了确保万无一失,需要对各种设备仪器进行检测,所有检测通过之后,引擎才能点火
+
+CyclicBarrier 
+
+LockSupport   part()  unPark(Thread thread)
+
+锁的优化
+1 减少持有时间
+2 减小锁的粒度  全局锁,局部锁
+ConcurrentHashMap    Collections.synchronizedCollection
+高并发情况下 size() 的性能
+3 锁分离 读写锁 , condition 锁	
+
+4 锁粗化
+如果遇到 一连串连续的对同一个锁的请求和释放,把所有锁的操作整合成对锁的一次请求,减少对锁的同步请求次数
+
+
+
+JVM锁的优化
+1 偏向锁  如果一个线程获得了锁,当线程再次请求锁时,无须再做任何同步工作,对于几乎没有锁竞争的场合,偏向锁优化效果比较好  -XX:+UserBiasedLocking 开启偏向锁
+2 轻量级锁 自旋锁 如果偏向锁失败,虚拟机并不会立即挂机线程,使用一个轻量级锁,线程获得轻量级锁成功,当前线程会膨胀为重量级锁,锁膨胀后,虚拟机为了避免线程在操作系统层面挂起,虚拟机会加一个自旋锁,假设在不久的将来线程可以获得锁
+当前线程做几个空循环,若干次之后还不能获得锁,才会在操作系统层面挂起线程  
+3 消除锁  JIT编译器消除不可能存在共享资源竞争的锁  -XX:+DoEscapeAnalysis 打开逃逸分析  -XX:+EliminateLocks 消除锁
+
+
+ThreadLocal  如果共享对象,对于竞争的处理容易引起性能损失,考虑使用ThreadLocal为每个线程单独分配对象.
+
+
+无锁的线程安全
+与众不同的并发 CAS
+AtomicInteger
+Disruptor论文中讲述了我们所做的一个实验。这个测试程序调用了一个函数，该函数会对一个64位的计数器循环自增5亿次。
+当单线程无锁时，程序耗时300ms。
+如果增加一个锁（仍是单线程、没有竞争、仅仅增加锁），程序需要耗时10000ms，慢了两个数量级。
+更令人吃惊的是，如果增加一个线程（简单从逻辑上想，应该比单线程加锁快一倍），耗时224000ms。
+使用两个线程对计数器自增5亿次比使用无锁单线程慢1000倍。并发很难而锁的性能糟糕。
+
+CAS操作比锁消耗资源少的多，因为它们不牵涉操作系统，它们直接在CPU上操作。
+但它们并非没有代价——在上面的试验中，单线程无锁耗时300ms，单线程有锁耗时10000ms，单线程使用CAS耗时5700ms。所以它比使用锁耗时少，但比不需要考虑竞争的单线程耗时多。
+
+public final int incrementAndGet() {
+        for (;;) {
+            int current = get();
+            int next = current + 1;
+            if (compareAndSet(current, next))
+                return next;
+        }
+    }
+
+BlockingQueue 不是一个高性能的实现  使用锁和阻塞实现
+ConcurrentLinkedQueue 高性能队列 , 使用大量无锁CAS操作
+无锁缓存框架 disruptor
+
+普通集合   并发集合
+ArrayList  Vector  读多写少的情况下可以用 CopyOnWriteArrayList
+HashMap    ConcurrentHashMap
+Queue      ConcurrentLinkedQueue
+
+ConcurrentHashMap 详解
+ConcurrentHashMap 使用了分治的思想,将一个Map分成多个段(Segment)和HashEntry
+段(Segment) 的数量是固定的, 由CONCURRENCY_LEVEL决定,默认为16段,DEFAULT_CONCURRENCY_LEVEL=16
+每个段上修改数据的时候,不会影响其他的段进行读写;
+get操作的高效之处在于整个get过程不需要加锁，除非读到的值是空的才会加锁重读，我们知道HashTable容器的get方法是需要加锁的，那么ConcurrentHashMap的get操作是如何做到不加锁的呢？原因是它的get方法里将要使用的共享变量都定义成volatile，如用于统计当前Segement大小的count字段和用于存储值的HashEntry的value。
+根据java内存模型的happen-before原则，对volatile字段的写入操作先于读操作，即使两个线程同时修改和获取volatile变量，get操作也能拿到最新的值，这是用volatile替换锁的经典应用场景。
+
+NIO
+
+串行方法并行化.
+并行求和
+并行排序
+
+Java8 函数式编程与并发
+函数式编程中,几乎所有传递的对象都不会被轻易修改.因此函数式编程更易于并行!实际上,你完全不需要担心线程安全的问题.
+
+默认接口方法,会带来多继承的问题
+
+lambda表达式 (函数式编程的核心)
+
+并行排序 Arrays.parallelSort(arr)
+增强的Future  CompletableFuture , 完成了再通知执行 ,可以手动设置
+
+StampedLock 时间戳锁
+更快的原子类  
+LongAdder AtomicInteger
+
+Akka(基于Scala语言)的 Actor并发模型
+
+
+
