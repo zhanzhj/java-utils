@@ -7,7 +7,6 @@ import org.liuxinyi.utils.common.DiceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
@@ -41,7 +40,6 @@ public class ForkJoinDemo extends RecursiveTask<Long> {
         int total = 10;
         int threshold = 3;
         List<Integer> dataList = new ArrayList<>(total);
-        Random random = new Random();
         for (int i = 0; i < total; i++) {
             dataList.add(i);
         }
