@@ -7,14 +7,49 @@
     <groupId>org.liuxinyi</groupId>
     <artifactId>java-utils</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <maven-compiler.version>3.0</maven-compiler.version>
+        <maven-source.version>3.0.0</maven-source.version>
+
+
+        <junit.version>4.12</junit.version>
+        <commons.io.version>2.5</commons.io.version>
+        <commons.lang3.version>3.5</commons.lang3.version>
+        <commons.collections.version>3.2.2</commons.collections.version>
+        <commons.compress.version>1.12</commons.compress.version>
+        <commons.net.version>3.5</commons.net.version>
+        <apache.poi.version>3.15</apache.poi.version>
+        <apache.poi-ooxml.version>3.15</apache.poi-ooxml.version>
+        <apache.httpclient.version>4.5.2</apache.httpclient.version>
+        <apache.httpmime.version>4.5.2</apache.httpmime.version>
+        <apache.httpasyncclient.version>4.1.2</apache.httpasyncclient.version>
+        <jedis.version>2.9.0</jedis.version>
+        <lombok.version>1.16.10</lombok.version>
+        <slf4j-api.version>1.7.21</slf4j-api.version>
+        <logback-classic.version>1.1.7</logback-classic.version>
+        <logback-core.version>1.1.7</logback-core.version>
+        <spring.version>4.2.2.RELEASE</spring.version>
+        <jsch.version>0.1.54</jsch.version>
+        <fastjson.version>1.2.20</fastjson.version>
+        <jaxb-api.version>2.2.12</jaxb-api.version>
+        <dom4j.version>1.6.1</dom4j.version>
+        <disruptor.version>3.3.6</disruptor.version>
+
+    </properties>
 
     <dependencies>
+        <!-- junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
 
         <!-- commons -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>${commons.io.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -24,17 +59,17 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.2</version>
+            <version>${commons.collections.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.12</version>
+            <version>${commons.compress.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.5</version>
+            <version>${commons.net.version}</version>
         </dependency>
 
 
@@ -42,109 +77,103 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.15</version>
+            <version>${apache.poi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>3.15</version>
+            <version>${apache.poi-ooxml.version}</version>
         </dependency>
 
         <!-- http 依赖 -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.2</version>
+            <version>${apache.httpclient.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>4.5.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${apache.httpmime.version}</version>
         </dependency>
 
         <!-- httpAsyncClient 依赖 -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpasyncclient</artifactId>
-            <version>4.1.2</version>
+            <version>${apache.httpasyncclient.version}</version>
         </dependency>
 
         <!-- redis 依赖 -->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>2.9.0</version>
+            <version>${jedis.version}</version>
         </dependency>
 
         <!-- lombok 依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.10</version>
+            <version>${lombok.version}</version>
         </dependency>
 
         <!-- slf4j 依赖 -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>
+            <version>${slf4j-api.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.7</version>
+            <version>${logback-classic.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.1.7</version>
+            <version>${logback-core.version}</version>
         </dependency>
 
         <!-- spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>4.2.2.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!-- jsch -->
         <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.1.54</version>
+            <version>${jsch.version}</version>
         </dependency>
 
         <!-- json -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.20</version>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <!-- xml -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.2.12</version>
+            <version>${jaxb-api.version}</version>
         </dependency>
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
+            <version>${dom4j.version}</version>
         </dependency>
 
         <!-- disruptor -->
         <dependency>
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
-            <version>3.3.6</version>
+            <version>${disruptor.version}</version>
         </dependency>
 
 
@@ -154,7 +183,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
+                <version>${maven-compiler.version}</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -165,7 +194,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven-source.version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
