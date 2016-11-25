@@ -1,0 +1,27 @@
+mvn  help:effective-pom
+
+jstat -gcpermcapacity pid 
+Jinfo pid 查看应用的各种信息
+jcmd pid VM.flags
+
+export JAVA_OPTS="-server -Xms1500m -Xmx1800m -XX:PermSize=128m -XX:MaxPermSize=256m 
+-XX:+UseConcMarkSweepGC -XX:+UseParNewGC 
+-XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark 
+-XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection 
+-XX:CMSFullGCsBeforeCompaction=1 -XX:+CMSClassUnloadingEnabled 
+-XX:+AggressiveOpts -XX:+UseBiasedLocking -XX:+UseFastAccessorMethods 
+-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/src/logs/dump 
+-verbose:gc -XX:+PrintGCDateStamps -XX:+PrintGCDetails -Xloggc:/usr/local/src/logs/dump/gc.log 
+-XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=20M 
+-Dcom.sun.management.jmxremote=true 
+-Dcom.sun.management.jmxremote.port=9120 
+-Dcom.sun.management.jmxremote.ssl=false 
+-Dcom.sun.management.jmxremote.authenticate=false"
+
+     linux 配置
+export JAVA_OPTS="-server -Xms1200m -Xmx1200m -XX:PermSize=256m -XX:MaxPermSize=256m 
+       -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/src/logs/dump"
+
+	 windows 配置
+set "JAVA_OPTS=-server -Xms1200m -Xmx1200m -XX:PermSize=256m -XX:MaxPermSize=256m 
+        -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=c:/tmp/logs/dump"
