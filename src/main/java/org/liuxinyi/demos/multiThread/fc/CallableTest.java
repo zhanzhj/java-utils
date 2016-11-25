@@ -14,7 +14,7 @@ import java.util.concurrent.FutureTask;
  * Created by Eric.Liu on 2016/11/22.
  */
 @Slf4j
-public class FCTest {
+public class CallableTest {
     @Test
     public void test() {
         List<Integer> numbers = new ArrayList<>(5);
