@@ -34,6 +34,8 @@
         <jaxb-api.version>2.2.12</jaxb-api.version>
         <dom4j.version>1.6.1</dom4j.version>
         <disruptor.version>3.3.6</disruptor.version>
+        <hibernate-core.version>5.2.4.Final</hibernate-core.version>
+        <hibernate-validator.version>5.3.3.Final</hibernate-validator.version>
 
     </properties>
 
@@ -174,6 +176,35 @@
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
             <version>${disruptor.version}</version>
+        </dependency>
+
+        <!-- hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+
+
+        <!-- disconf -->
+        <dependency>
+            <groupId>com.baidu.disconf</groupId>
+            <artifactId>disconf-client</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
