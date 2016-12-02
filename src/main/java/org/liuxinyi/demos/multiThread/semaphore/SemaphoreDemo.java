@@ -26,9 +26,10 @@ public class SemaphoreDemo implements Runnable {
             semaphore.acquire();
             Thread.sleep(3000);
             log.info("thread : {} release", Thread.currentThread().getName());
-            semaphore.release();
         } catch (Exception e) {
             log.error("", e);
+        } finally {
+            semaphore.release();
         }
     }
 }
