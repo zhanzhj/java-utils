@@ -23,18 +23,20 @@ public class SemaphoreDemo implements Runnable {
 
     @Override
     public void run() {
-        testAcquire1();
+        //testAcquire1();
+        testAcquire2();
     }
 
     private void testAcquire1() {
         try {
             semaphore.acquire();
             Thread.sleep(3000);
-            log.info("thread : {} release", Thread.currentThread().getName());
+            log.info("thread : {} acquired", Thread.currentThread().getName());
         } catch (Exception e) {
             log.error("", e);
         } finally {
             semaphore.release();
+            log.info("thread : {} release", Thread.currentThread().getName());
         }
     }
 
@@ -43,15 +45,18 @@ public class SemaphoreDemo implements Runnable {
         boolean acquired = false;
         try {
             acquired = semaphore.tryAcquire(1, 500, TimeUnit.MILLISECONDS);
-            if (semaphore.tryAcquire(1, 500, TimeUnit.MILLISECONDS)) {
+            if (acquired) {
+                log.info("thread : {} acquired", Thread.currentThread().getName());
                 Thread.sleep(3000);
-                log.info("thread : {} release", Thread.currentThread().getName());
+            } else {
+                log.info("thread : {} failed to  acquire", Thread.currentThread().getName());
             }
         } catch (Exception e) {
             log.error("task failed ", e);
         } finally {
             if (acquired) {
                 semaphore.release();
+                log.info("thread : {} release", Thread.currentThread().getName());
             }
         }
     }
