@@ -3,6 +3,7 @@ package org.liuxinyi.demos.multiThread.semaphore;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Eric.Liu on 2016/11/22.
@@ -22,6 +23,10 @@ public class SemaphoreDemo implements Runnable {
 
     @Override
     public void run() {
+        testAcquire1();
+    }
+
+    private void testAcquire1() {
         try {
             semaphore.acquire();
             Thread.sleep(3000);
@@ -30,6 +35,24 @@ public class SemaphoreDemo implements Runnable {
             log.error("", e);
         } finally {
             semaphore.release();
+        }
+    }
+
+
+    private void testAcquire2() {
+        boolean acquired = false;
+        try {
+            acquired = semaphore.tryAcquire(1, 500, TimeUnit.MILLISECONDS);
+            if (semaphore.tryAcquire(1, 500, TimeUnit.MILLISECONDS)) {
+                Thread.sleep(3000);
+                log.info("thread : {} release", Thread.currentThread().getName());
+            }
+        } catch (Exception e) {
+            log.error("task failed ", e);
+        } finally {
+            if (acquired) {
+                semaphore.release();
+            }
         }
     }
 }
