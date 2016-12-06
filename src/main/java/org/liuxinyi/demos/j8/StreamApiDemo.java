@@ -6,7 +6,9 @@ import org.junit.Test;
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.FutureTask;
+import java.util.function.IntPredicate;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -69,13 +71,28 @@ public class StreamApiDemo {
     public void testSort3() {
         List<String> list = getList();
         log.info("before sort : {}", list);
-        list.parallelStream().sorted().forEach(s -> {
+        list.parallelStream().sorted(
+                Comparator.comparing(String::length)
+                        .thenComparing(String::hashCode)
+        ).forEach(s -> {
             log.info(s);
         });
-        list.parallelStream().sorted().forEachOrdered(s -> {
+        list.parallelStream().sorted(
+                Comparator.comparing(String::length)
+                        .thenComparing(String::hashCode)
+        ).forEachOrdered(s -> {
             log.info(s);
         });
-        log.info("after sort : {}", list);
+    }
+
+    @Test
+    public void testAndOr() {
+        Predicate<Person> age10Predicate = (Person p) -> p.getAge() > 20;
+        Predicate<Person> ukPredicate = (Person p) -> p.getCountry().equals("UK");
+        Predicate<Person> myPredicate = age10Predicate.and(ukPredicate);
+        List<Person> list = getPersonList();
+        long count = list.stream().filter(myPredicate).count();
+        log.info("count : {} ", count);
     }
 
     /**
@@ -117,9 +134,12 @@ public class StreamApiDemo {
     public void testStreamMapTo() {
         List<Person> persons = getPersonList();
 
-        int sum = persons.stream().mapToInt(person -> person.getAge()).sum();
-        OptionalDouble avg = persons.stream().mapToInt(person -> person.getAge()).average();
-        long sum2 = persons.stream().mapToLong(person -> person.getAge()).sum();
+        int sum = persons.stream()
+                .mapToInt(person -> person.getAge()).sum();
+        OptionalDouble avg = persons.stream()
+                .mapToInt(person -> person.getAge()).average();
+        long sum2 = persons.stream()
+                .mapToLong(person -> person.getAge()).sum();
         log.info("age int sum is : {} ; avg : {}", sum, avg);
         log.info("age long sum is : {} ", sum2);
     }
@@ -178,4 +198,21 @@ public class StreamApiDemo {
             log.error("error ", e);
         }
     }
+
+    /**
+     * 使用IntPredicate可以避免自动拆装箱,提高性能
+     */
+    @Test
+    public void testIntPredicate() {
+        IntPredicate evenNumbers = (int i) -> i % 2 == 0;
+        log.info("test result : {} ", evenNumbers.test(5));
+    }
+
+    @Test
+    public void testNew() {
+        Supplier<String> stringSupplier = String::new;
+        String string = stringSupplier.get();
+        log.info("test result : {} ", string);
+    }
+
 }
