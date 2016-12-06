@@ -38,6 +38,8 @@ public class CallableTest {
 
     @Test
     public void test1() {
+        int processes = Runtime.getRuntime().availableProcessors();
+        log.info("processes : {} ", processes);
         List<Integer> numbers = new ArrayList<>(5);
         numbers.add(1);
         numbers.add(2);
