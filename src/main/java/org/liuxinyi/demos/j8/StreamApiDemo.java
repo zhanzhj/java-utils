@@ -20,29 +20,8 @@ import java.util.stream.Collectors;
  * </p>
  */
 @Slf4j
-public class StreamApiDemo {
+public class StreamApiDemo extends CommonData {
 
-    private List<String> getList() {
-        List<String> list = new ArrayList<>();
-        list.add("a");
-        list.add("z");
-        list.add("sql");
-        list.add("java");
-        list.add("perl");
-        list.add("python");
-        list.add("language");
-        return list;
-    }
-
-    private List<Person> getPersonList() {
-        List<Person> list = new ArrayList<>();
-        list.add(new Person(20, "Kobe", "USA"));
-        list.add(new Person(15, "Jack", "UK"));
-        list.add(new Person(25, "Lucy", "USA"));
-        list.add(new Person(40, "Eric", "UK"));
-        list.add(new Person(30, "Alice", "UK"));
-        return list;
-    }
 
     @Test
     public void testSort1() {
