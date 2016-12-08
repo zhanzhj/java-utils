@@ -20,16 +20,4 @@ public class Person {
         this.name = name;
         this.country = country;
     }
-
-    public int getAge() {
-        return age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCountry() {
-        return country;
-    }
 }

@@ -194,4 +194,10 @@ public class StreamApiDemo extends CommonData {
         log.info("test result : {} ", string);
     }
 
+    @Test
+    public void testParams() {
+        int a = 3;
+
+    }
+
 }
