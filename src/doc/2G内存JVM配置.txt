@@ -1,9 +1,3 @@
-mvn  help:effective-pom
-
-jstat -gcpermcapacity pid 
-Jinfo pid 查看应用的各种信息
-jcmd pid VM.flags
-
 export JAVA_OPTS="-server -Xms1500m -Xmx1800m -XX:PermSize=128m -XX:MaxPermSize=256m 
 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC 
 -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark 
@@ -18,10 +12,16 @@ export JAVA_OPTS="-server -Xms1500m -Xmx1800m -XX:PermSize=128m -XX:MaxPermSize=
 -Dcom.sun.management.jmxremote.ssl=false 
 -Dcom.sun.management.jmxremote.authenticate=false"
 
-     linux 配置
+     linux 閰嶇疆
 export JAVA_OPTS="-server -Xms1200m -Xmx1200m -XX:PermSize=256m -XX:MaxPermSize=256m 
        -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/src/logs/dump"
 
-	 windows 配置
+	 windows 閰嶇疆
 set "JAVA_OPTS=-server -Xms1200m -Xmx1200m -XX:PermSize=256m -XX:MaxPermSize=256m 
         -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=c:/tmp/logs/dump"
+
+
+mvn  help:effective-pom
+jstat -gcpermcapacity pid 
+Jinfo pid 
+jcmd pid VM.flags
