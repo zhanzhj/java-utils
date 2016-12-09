@@ -1,4 +1,4 @@
-package org.liuxinyi.demos.multiThread.fc;
+package org.liuxinyi.demos.multiThread.callable;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

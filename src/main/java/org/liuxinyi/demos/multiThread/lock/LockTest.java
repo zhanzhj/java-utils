@@ -7,17 +7,17 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by Eric.Liu on 2016/11/21.
  */
 @Slf4j
 public class LockTest {
-    private Lock lock1 = new ReentrantLock();
-    private ReentrantReadWriteLock lock2 = new ReentrantReadWriteLock();
+    private Lock lock = new ReentrantLock();
 
     private static int num = 0;
+
+    private static Object object;
 
     /**
      * test common lock
@@ -30,7 +30,7 @@ public class LockTest {
                 @Override
                 public void run() {
                     try {
-                        lock1.tryLock(2000, TimeUnit.MILLISECONDS);
+                        lock.tryLock(2000, TimeUnit.MILLISECONDS);
                     } catch (InterruptedException e) {
                         log.error("failed to get lock within 2 seconds");
                         return;
@@ -41,7 +41,7 @@ public class LockTest {
                     } catch (Exception e) {
                         log.error("Exception", e);
                     }
-                    lock1.unlock();
+                    lock.unlock();
                     log.info(Thread.currentThread().getName() + "unlock");
                 }
             });
@@ -71,6 +71,49 @@ public class LockTest {
             Thread.sleep(12 * 1000);
         } catch (Exception e) {
             log.error("Exception", e);
+        }
+    }
+
+    @Test
+    public void lazyLockTest() {
+        for (int i = 0; i < 5; i++) {
+            Thread thread = new Thread(
+                    () -> {
+                        Object obj = getObjectInstance();
+                        log.info(obj.toString());
+                    }
+            );
+            thread.start();
+        }
+        try {
+            Thread.sleep(7000);
+        } catch (Exception e) {
+            log.error("failed ", e);
+        }
+    }
+
+    private Object getObjectInstance() {
+        if (object != null) {
+            return object;
+        } else {
+            lazyInit();
+            return object;
+        }
+    }
+
+    private synchronized void lazyInit() {
+        if (null != object) {
+            log.info("already initialized");
+            return;
+        } else {
+            try {
+                log.info("begin init");
+                Thread.sleep(5000);
+                object = new Object();
+                log.info("init success");
+            } catch (Exception e) {
+                log.error("failed to init obj ", e);
+            }
         }
     }
 

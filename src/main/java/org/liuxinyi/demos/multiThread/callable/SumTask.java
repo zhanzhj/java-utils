@@ -1,12 +1,9 @@
-package org.liuxinyi.demos.multiThread.fc;
+package org.liuxinyi.demos.multiThread.callable;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
 
 /**
  * Created by Eric.Liu on 2016/11/21.
