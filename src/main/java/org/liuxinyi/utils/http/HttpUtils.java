@@ -12,6 +12,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
+import org.liuxinyi.utils.common.ApiCodeEnum;
+import org.liuxinyi.utils.common.Response;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -78,7 +80,7 @@ public class HttpUtils {
      * @param headers 请求头
      * @return map
      */
-    public static Map<String, Object> get(String url, Map<String, String> headers) {
+    public static Response<String> get(String url, Map<String, String> headers) {
         return get(url, headers, defaultHttpClient, defaultRequestConfig);
     }
 
@@ -89,8 +91,7 @@ public class HttpUtils {
      * @param requestConfig requestConfig
      * @return
      */
-    public static Map<String, Object> get(String url, Map<String, String> headers, CloseableHttpClient httpClient, RequestConfig requestConfig) {
-        HashMap<String, Object> result = new HashMap();
+    public static Response<String> get(String url, Map<String, String> headers, CloseableHttpClient httpClient, RequestConfig requestConfig) {
         CloseableHttpResponse response = null;
         try {
             HttpGet get = new HttpGet(url);
@@ -103,14 +104,14 @@ public class HttpUtils {
             }
             response = httpClient.execute(get);
             Header[] responseHeaders = response.getAllHeaders();
-            result.put("header", responseHeaders);
             HttpEntity httpResponseEntity = response.getEntity();
             String responseBody = EntityUtils.toString(httpResponseEntity, HttpConstants.UTF_8);
-            result.put("body", responseBody);
 
+            return new Response<String>(responseBody);
         } catch (IOException e) {
             log.error("get method , url: {} ", url, e);
-            result.put("message", "get url : " + url + " ; errorMessage" + e.getMessage());
+            return new Response<String>(ApiCodeEnum.SYSTEM_ERROR.getCode(),
+                    "网络失败" + e.getMessage());
         } finally {
             try {
                 response.close();
@@ -118,7 +119,6 @@ public class HttpUtils {
             }
         }
 
-        return result;
     }
 
 
@@ -130,7 +130,7 @@ public class HttpUtils {
      * @param content 请求体 json string 格式
      * @return map
      */
-    public static Map<String, Object> postJson(String url, Map<String, String> headers, String content) {
+    public static Response<String> postJson(String url, Map<String, String> headers, String content) {
         return postJson(url, headers, content, defaultHttpClient, defaultRequestConfig);
     }
 
@@ -143,8 +143,7 @@ public class HttpUtils {
      * @param requestConfig requestConfig
      * @return
      */
-    public static Map<String, Object> postJson(String url, Map<String, String> headers, String content, CloseableHttpClient httpClient, RequestConfig requestConfig) {
-        HashMap<String, Object> result = new HashMap();
+    public static Response<String> postJson(String url, Map<String, String> headers, String content, CloseableHttpClient httpClient, RequestConfig requestConfig) {
         CloseableHttpResponse response = null;
         try {
             HttpPost post = new HttpPost(url);
@@ -159,14 +158,14 @@ public class HttpUtils {
             post.setEntity(HttpEntityUtils.buildJsonStringEntity(content));
             response = httpClient.execute(post);
             Header[] responseHeaders = response.getAllHeaders();
-            result.put("header", responseHeaders);
             HttpEntity httpResponseEntity = response.getEntity();
             String responseBody = EntityUtils.toString(httpResponseEntity, HttpConstants.UTF_8);
-            result.put("body", responseBody);
 
+            return new Response<>(responseBody);
         } catch (IOException e) {
             log.error("postJson , url : {}  , content : {}", url, content, e);
-            result.put("message", "postJson url : " + url + " ; errorMessage" + e.getMessage());
+            return new Response<>(ApiCodeEnum.SYSTEM_ERROR.getCode(),
+                    "网络错误" + e.getMessage());
         } finally {
             try {
                 response.close();
@@ -174,7 +173,6 @@ public class HttpUtils {
             }
         }
 
-        return result;
     }
 
     /**
@@ -190,7 +188,7 @@ public class HttpUtils {
      * @param entity  请求体 HttpEntity 格式
      * @return map key header body
      */
-    public static Map<String, Object> postEntity(String url, Map<String, String> headers, HttpEntity entity) {
+    public static Response<String> postEntity(String url, Map<String, String> headers, HttpEntity entity) {
         return postEntity(url, headers, entity, defaultHttpClient, defaultRequestConfig);
     }
 
@@ -202,7 +200,7 @@ public class HttpUtils {
      * @param requestConfig requestConfig
      * @return
      */
-    public static Map<String, Object> postEntity(String url, Map<String, String> headers, HttpEntity entity, CloseableHttpClient httpClient, RequestConfig requestConfig) {
+    public static Response<String> postEntity(String url, Map<String, String> headers, HttpEntity entity, CloseableHttpClient httpClient, RequestConfig requestConfig) {
         HashMap<String, Object> result = new HashMap();
         CloseableHttpResponse response = null;
         try {
@@ -221,10 +219,11 @@ public class HttpUtils {
             HttpEntity httpResponseEntity = response.getEntity();
             String responseBody = EntityUtils.toString(httpResponseEntity, HttpConstants.UTF_8);
             result.put("body", responseBody);
-
+            return new Response<>(responseBody);
         } catch (IOException e) {
             log.error("postEntity method , url : {} ", url, e);
-            result.put("message", "postEntity url : " + url + " ; errorMessage" + e.getMessage());
+            return new Response<>(ApiCodeEnum.SYSTEM_ERROR.getCode(),
+                    "网络错误" + e.getMessage());
         } finally {
             try {
                 response.close();
@@ -232,7 +231,6 @@ public class HttpUtils {
             }
         }
 
-        return result;
     }
 
     /**
