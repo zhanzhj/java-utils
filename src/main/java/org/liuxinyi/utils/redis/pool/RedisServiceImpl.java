@@ -1,11 +1,14 @@
 package org.liuxinyi.utils.redis.pool;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,15 +29,22 @@ import java.util.Set;
 @Slf4j
 public class RedisServiceImpl implements RedisService {
 
+    @Value(value = "${redis.host}")
+    private String host;
+    @Value(value = "${redis.port}")
+    private int port;
+    @Value(value = "${redis.password}")
+    private String password;
+    @Value(value = "${redis.db}")
+    private int db;
+
     private JedisPool jedisPool;
 
-
-    private synchronized void initPool() {
+    @PostConstruct
+    public void initPool() {
         try {
-            if (null != jedisPool) {
-                log.info("already init success");
-                return;
-            }
+            log.info("host : {} , port : {} , password : {}",
+                    host, port, password);
             JedisPoolConfig config = new JedisPoolConfig();
             config.setMaxTotal(20);
             config.setMaxWaitMillis(30000);
@@ -42,18 +52,20 @@ public class RedisServiceImpl implements RedisService {
             config.setMinIdle(5);
             config.setTestOnBorrow(true);
             config.setTestOnReturn(true);
-            JedisPool newJedisPool = new JedisPool(config,
-                    "99.48.18.202", 6379, 3000, "1qaz@WSX");
-            setJedisPool(newJedisPool);
-            log.info("init jedisPool success!");
+            if (StringUtils.isBlank(password)) {
+                jedisPool = new JedisPool(config,
+                        host, port,
+                        3000);
+            } else {
+                jedisPool = new JedisPool(config,
+                        host, port,
+                        3000, password);
+            }
+            log.info("init jedisPool success !");
+            set("test", "test");
         } catch (Exception e) {
-            log.error("failed to init jedisPool!");
+            log.error("failed to init jedisPool !", e);
         }
-    }
-
-    @Override
-    public void reload() {
-        initPool();
     }
 
     /**
@@ -62,17 +74,14 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     private Jedis getJedis() {
-        if (null == jedisPool) {
-            initPool();
-        }
-        Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
-            jedis.select(3);
+            Jedis jedis = jedisPool.getResource();
+            jedis.select(db);
+            return jedis;
         } catch (Exception e) {
             log.error("failed to get jedis resource ", e);
+            throw new RuntimeException("failed to get resource");
         }
-        return jedis;
     }
 
     public void setJedisPool(JedisPool jedisPool) {
@@ -172,6 +181,15 @@ public class RedisServiceImpl implements RedisService {
         closeJedis(jedis);
         return result;
     }
+
+    @Override
+    public long increase(String key) {
+        Jedis jedis = getJedis();
+        long result = jedis.incr(key);
+        closeJedis(jedis);
+        return result;
+    }
+
 
     @Override
     public long increase(String key, int seconds) {

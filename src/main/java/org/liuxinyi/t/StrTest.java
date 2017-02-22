@@ -15,6 +15,10 @@ import java.util.List;
  */
 @Slf4j
 public class StrTest {
+
+
+    private static final String SIGN = "[领先基金网]";
+
     @Test
     public void test1() {
         String inviteCode = RandomStringUtils.randomAlphanumeric(8).toUpperCase();
@@ -48,17 +52,22 @@ public class StrTest {
     @Test
     public void test3() {
         List<ABC> list = new ArrayList<>();
-        list.add(new ABC("a","a@"));
-        list.add(new ABC("b","b@"));
-        list.add(new ABC("c","c@"));
-        list.add(new ABC("d","d@"));
-        list.add(new ABC("e","e@"));
-        list.add(new ABC("f","f@"));
+        list.add(new ABC("a", "a@"));
+        list.add(new ABC("b", "b@"));
+        list.add(new ABC("c", "c@"));
+        list.add(new ABC("d", "d@"));
+        list.add(new ABC("e", "e@"));
+        list.add(new ABC("f", "f@"));
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", "ok");
         jsonObject.put("list", list);
         log.info("json result is : {} ", jsonObject.toJSONString());
     }
 
+    @Test
+    public void test4() {
+        log.info("sign : {}  ", SIGN);
+        System.out.println(SIGN);
+    }
 
 }

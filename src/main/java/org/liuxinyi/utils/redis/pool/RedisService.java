@@ -12,8 +12,6 @@ public interface RedisService {
 
     int DEFAULT_EXPIRE_SECONDS = 60 * 60 * 6;
 
-    void reload();
-
     // key
     long expire(String key, int seconds);
 
@@ -36,6 +34,8 @@ public interface RedisService {
     String get(String key);
 
     long del(String key);
+
+    long increase(String key);
 
     long increase(String key, int seconds);
 
