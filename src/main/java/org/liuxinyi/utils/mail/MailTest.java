@@ -18,16 +18,16 @@ public class MailTest {
     @Test
     public void test1() {
         String host = "smtp.163.com";
-        String userName = "17602107305@163.com";
-        String password = "qwe1234567";
+        String userName = "xxx@163.com";
+        String password = "xxx";
         doSendEmail(host, userName, password);
     }
 
     @Test
     public void test2() {
-        String host = "smtp.vstone.com.cn";
-        String userName = "liuxy@vstone.com.cn";
-        String password = "Qwe12rt34";
+        String host = "xx";
+        String userName = "x@x.com.cn";
+        String password = "xx";
         doSendEmail(host, userName, password);
     }
 
@@ -58,8 +58,8 @@ public class MailTest {
 
 
             List<String> toList = new ArrayList<>();
-            toList.add("826102786@qq.com");
-            toList.add("292916861@qq.com");
+            toList.add("x@qq.com");
+            toList.add("x@qq.com");
             // 设置收件人，寄件人
             String[] toArray = new String[toList.size()];
             toList.toArray(toArray);
